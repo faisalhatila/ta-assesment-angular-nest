@@ -115,7 +115,10 @@ export class CurrencyApiService {
 
   /** Absolute or root-relative API prefix; always normalized for HttpClient. */
   private base(): string {
-    const b = getApiBaseUrl().replace(/\/$/, '');
+    const b = getApiBaseUrl().trim().replace(/\/$/, '');
+    // Never return "/" alone: `${"/"}/currency/...}` becomes "//currency/..." which the browser
+    // treats as protocol-relative (host "currency"), not same-origin + path.
+    if (!b) return '';
     if (b.startsWith('http')) return b;
     return b.startsWith('/') ? b : `/${b}`;
   }

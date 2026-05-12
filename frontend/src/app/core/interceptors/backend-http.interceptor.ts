@@ -11,7 +11,8 @@ import { SupabaseAuthService } from '../services/supabase-auth.service';
 const RETRY_HEADER = 'x-cc-auth-retry';
 
 function requestMatchesApiBase(reqUrl: string): boolean {
-  const apiPrefix = getApiBaseUrl().replace(/\/$/, '');
+  const apiPrefix = getApiBaseUrl().trim().replace(/\/$/, '');
+  if (!apiPrefix) return false;
 
   // 1) Match using the configured prefix directly (covers both absolute and root-relative calls)
   if (reqUrl === apiPrefix || reqUrl.startsWith(`${apiPrefix}/`)) {
