@@ -12,6 +12,10 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Serverless: exposes SUPABASE_* / API_BASE_URL at runtime (no build-time scope needed).
+[functions]
+  directory = "netlify/functions"
+
 # SPA: client routes must serve index.html
 [[redirects]]
   from = "/*"

@@ -156,8 +156,9 @@ export class AuthPageComponent {
 
   /** Dev vs production copy when Supabase env is missing. */
   readonly missingSupabaseHint = environment.production
-    ? 'Supabase is not configured for this deploy. In Netlify, set build env vars ' +
-      'SUPABASE_URL and SUPABASE_ANON_KEY (and optional API_BASE_URL), then redeploy.'
+    ? 'Supabase is not configured. In Netlify → Environment variables, set SUPABASE_URL and ' +
+      'SUPABASE_ANON_KEY (same as backend .env). Use scope "All" or "Functions" so the runtime ' +
+      'config is available, then redeploy.'
     : 'Supabase is not configured. Set supabaseUrl and supabaseAnonKey in ' +
       'src/environments/environment.development.ts (same values as backend .env).';
 

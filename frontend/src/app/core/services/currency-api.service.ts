@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { getApiBaseUrl } from '../config/runtime-netlify-env';
 
 export interface ConvertResponse {
   id?: number;
@@ -115,7 +115,7 @@ export class CurrencyApiService {
 
   /** Absolute or root-relative API prefix; always normalized for HttpClient. */
   private base(): string {
-    const b = environment.apiBaseUrl.trim().replace(/\/$/, '');
+    const b = getApiBaseUrl().replace(/\/$/, '');
     if (b.startsWith('http')) return b;
     return b.startsWith('/') ? b : `/${b}`;
   }

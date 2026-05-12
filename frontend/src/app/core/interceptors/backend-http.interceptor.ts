@@ -4,14 +4,14 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, from, switchMap, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { getApiBaseUrl } from '../config/runtime-netlify-env';
 import { DeviceFingerprintService } from '../services/device-fingerprint.service';
 import { SupabaseAuthService } from '../services/supabase-auth.service';
 
 const RETRY_HEADER = 'x-cc-auth-retry';
 
 function requestMatchesApiBase(reqUrl: string): boolean {
-  const apiPrefix = environment.apiBaseUrl.trim().replace(/\/$/, '');
+  const apiPrefix = getApiBaseUrl().replace(/\/$/, '');
 
   // 1) Match using the configured prefix directly (covers both absolute and root-relative calls)
   if (reqUrl === apiPrefix || reqUrl.startsWith(`${apiPrefix}/`)) {

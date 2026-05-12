@@ -8,7 +8,10 @@ import {
   SupabaseClient,
   User,
 } from '@supabase/supabase-js';
-import { environment } from '../../../environments/environment';
+import {
+  getSupabaseAnonKey,
+  getSupabaseUrl,
+} from '../config/runtime-netlify-env';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseAuthService {
@@ -78,11 +81,13 @@ export class SupabaseAuthService {
 
   private createClientSafe(): SupabaseClient | null {
     if (!isPlatformBrowser(this.platformId)) return null;
-    const { supabaseUrl, supabaseAnonKey } = environment;
+    const supabaseUrl = getSupabaseUrl();
+    const supabaseAnonKey = getSupabaseAnonKey();
     if (!supabaseUrl || !supabaseAnonKey) {
       console.warn(
         'Supabase URL or anon key missing. Dev: environment.development.ts. ' +
-          'Production: Netlify env SUPABASE_URL, SUPABASE_ANON_KEY; run write-prod-secrets before build.',
+          'Production (Netlify): set SUPABASE_URL and SUPABASE_ANON_KEY (Functions or All scope) ' +
+          'or bake them at build via write-prod-secrets.',
       );
       return null;
     }
