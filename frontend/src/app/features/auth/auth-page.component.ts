@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { environment } from '../../../environments/environment';
 import { SupabaseAuthService } from '../../core/services/supabase-auth.service';
 
 @Component({
@@ -33,12 +34,7 @@ import { SupabaseAuthService } from '../../core/services/supabase-auth.service';
         </mat-card-header>
         <mat-card-content>
           @if (!auth.supabase) {
-            <p class="warn">
-              Supabase is not configured. Set
-              <code>supabaseUrl</code> and <code>supabaseAnonKey</code> in
-              <code>src/environments/environment.development.ts</code>
-              (same values as backend <code>.env</code>).
-            </p>
+            <p class="warn">{{ missingSupabaseHint }}</p>
           } @else {
             <mat-tab-group>
               <mat-tab label="Log in">
@@ -157,6 +153,13 @@ export class AuthPageComponent {
   readonly auth = inject(SupabaseAuthService);
 
   readonly busy = signal(false);
+
+  /** Dev vs production copy when Supabase env is missing. */
+  readonly missingSupabaseHint = environment.production
+    ? 'Supabase is not configured for this deploy. In Netlify, set build env vars ' +
+      'SUPABASE_URL and SUPABASE_ANON_KEY (and optional API_BASE_URL), then redeploy.'
+    : 'Supabase is not configured. Set supabaseUrl and supabaseAnonKey in ' +
+      'src/environments/environment.development.ts (same values as backend .env).';
 
   readonly loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

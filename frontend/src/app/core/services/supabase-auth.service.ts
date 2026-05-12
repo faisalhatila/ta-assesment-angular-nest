@@ -3,7 +3,6 @@ import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AuthChangeEvent,
-  AuthSession,
   createClient,
   Session,
   SupabaseClient,
@@ -82,7 +81,8 @@ export class SupabaseAuthService {
     const { supabaseUrl, supabaseAnonKey } = environment;
     if (!supabaseUrl || !supabaseAnonKey) {
       console.warn(
-        'Supabase URL or anon key missing; set them in src/environments/environment.development.ts',
+        'Supabase URL or anon key missing. Dev: environment.development.ts. ' +
+          'Production: Netlify env SUPABASE_URL, SUPABASE_ANON_KEY; run write-prod-secrets before build.',
       );
       return null;
     }

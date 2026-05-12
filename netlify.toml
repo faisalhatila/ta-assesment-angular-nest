@@ -4,7 +4,8 @@
 
 [build]
   base = "frontend"
-  command = "cd .. && npm ci && npm run build --workspace=frontend"
+  # Inject SUPABASE_* / API_BASE_URL into environment.prod.secrets.ts before Angular build
+  command = "cd .. && node frontend/scripts/write-prod-secrets.mjs && npm ci && npm run build --workspace=frontend"
   publish = "dist/frontend/browser"
 
 [build.environment]
