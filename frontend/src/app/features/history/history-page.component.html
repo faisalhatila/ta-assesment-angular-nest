@@ -1,0 +1,121 @@
+<div class="page">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Conversion history</mat-card-title>
+      <mat-card-subtitle>
+        Recent conversions load automatically. Use filters and Search to narrow results.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="filter-row" [formGroup]="form" [appBlockUi]="loadingFilters()">
+        <mat-form-field appearance="outline" class="ff ff-currency" subscriptSizing="dynamic">
+          <mat-label>From</mat-label>
+          <mat-select formControlName="fromCurrency">
+            <mat-option [value]="ANY">Any</mat-option>
+            @for (c of currencyOptions(); track c.code) {
+              <mat-option [value]="c.code">{{ c.code }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="ff ff-currency" subscriptSizing="dynamic">
+          <mat-label>To</mat-label>
+          <mat-select formControlName="toCurrency">
+            <mat-option [value]="ANY">Any</mat-option>
+            @for (c of currencyOptions(); track c.code) {
+              <mat-option [value]="c.code">{{ c.code }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="ff ff-date" subscriptSizing="dynamic">
+          <mat-label>From date</mat-label>
+          <input matInput type="date" formControlName="dateFrom" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="ff ff-date" subscriptSizing="dynamic">
+          <mat-label>To date</mat-label>
+          <input matInput type="date" formControlName="dateTo" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="ff ff-limit" subscriptSizing="dynamic">
+          <mat-label>Limit</mat-label>
+          <input matInput type="number" formControlName="limit" min="1" max="100" />
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          class="btn-search"
+          (click)="search()"
+          [disabled]="loadingHistory() || form.controls.limit.invalid"
+        >
+          Search
+        </button>
+
+        <button
+          mat-stroked-button
+          type="button"
+          class="btn-reset"
+          (click)="resetAndLoadAll()"
+          [disabled]="loadingHistory()"
+        >
+          Show all
+        </button>
+      </div>
+
+      <div class="table-wrap" [appBlockUi]="loadingHistory()">
+        @if (rows().length === 0 && !loadingHistory()) {
+          <p class="empty">No records found.</p>
+        } @else {
+          <table mat-table [dataSource]="rows()" class="history-table">
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef>Created</th>
+              <td mat-cell *matCellDef="let r">{{ r.createdAt | date: 'medium' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fromCurrency">
+              <th mat-header-cell *matHeaderCellDef>From</th>
+              <td mat-cell *matCellDef="let r">{{ r.fromCurrency }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="toCurrency">
+              <th mat-header-cell *matHeaderCellDef>To</th>
+              <td mat-cell *matCellDef="let r">{{ r.toCurrency }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef class="num">Amount</th>
+              <td mat-cell *matCellDef="let r" class="num">
+                {{ r.amount | number: '1.0-8' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rate">
+              <th mat-header-cell *matHeaderCellDef class="num">Rate</th>
+              <td mat-cell *matCellDef="let r" class="num">
+                {{ r.rate | number: '1.2-10' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="convertedAmount">
+              <th mat-header-cell *matHeaderCellDef class="num">Converted</th>
+              <td mat-cell *matCellDef="let r" class="num">
+                {{ r.convertedAmount | number: '1.2-8' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rateDate">
+              <th mat-header-cell *matHeaderCellDef>Rate date</th>
+              <td mat-cell *matCellDef="let r">{{ r.rateDate }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

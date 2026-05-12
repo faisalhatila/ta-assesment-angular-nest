@@ -1,0 +1,78 @@
+<div class="page">
+  <main class="main">
+    <mat-card class="card" [appBlockUi]="loadingCurrencies() || converting()">
+      <mat-card-header>
+        <mat-card-title>Convert</mat-card-title>
+        <mat-card-subtitle>
+          Latest rates from your Nest API. Past conversions are stored on the server; open History in the menu to review them.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="grid" [formGroup]="form" (ngSubmit)="convert()">
+          <mat-form-field appearance="outline">
+            <mat-label>From</mat-label>
+            <mat-select formControlName="from">
+              @for (c of fromDropdownOptions(); track c.code) {
+                <mat-option [value]="c.code">{{ c.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="swap-wrap">
+            <button
+              mat-stroked-button
+              type="button"
+              class="swap"
+              (click)="swap()"
+              aria-label="Swap currencies"
+            >
+              <mat-icon>swap_horiz</mat-icon>
+            </button>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>To</mat-label>
+            <mat-select formControlName="to">
+              @for (c of toDropdownOptions(); track c.code) {
+                <mat-option [value]="c.code">{{ c.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="span-3">
+            <mat-label>Amount</mat-label>
+            <input matInput type="number" step="any" formControlName="amount" />
+          </mat-form-field>
+
+          <div class="actions span-3">
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              class="cta"
+              [disabled]="form.invalid || loadingCurrencies()"
+            >
+              Convert
+            </button>
+          </div>
+        </form>
+
+        @if (lastResult(); as res) {
+          @if (lastAmount(); as amt) {
+            <section class="result" aria-live="polite">
+              <h3 class="result-title">Result</h3>
+              <p class="result-line">
+                <strong>{{ amt | number: '1.0-8' }} {{ res.fromCurrency }}</strong>
+                =
+                <strong>{{ amt * res.rate | number: '1.2-8' }} {{ res.toCurrency }}</strong>
+              </p>
+              <p class="result-meta">
+                Rate {{ res.rate | number: '1.2-10' }} (latest, {{ res.rateDate }})
+              </p>
+            </section>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  </main>
+</div>

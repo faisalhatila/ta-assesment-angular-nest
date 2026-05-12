@@ -1,0 +1,59 @@
+.shell {
+  height: 100dvh;
+}
+
+.drawer {
+  width: min(280px, 85vw);
+  box-sizing: border-box;
+}
+
+.drawer-brand {
+  padding: 1rem 1rem 0.5rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.active-link {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.topbar-title {
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.email {
+  display: none;
+  font-size: 0.85rem;
+  opacity: 0.95;
+  max-width: 38vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (min-width: 520px) {
+    display: inline;
+  }
+}
+
+.outlet {
+  flex: 1;
+  overflow: auto;
+  background: #f5f5f5;
+}

@@ -1,0 +1,90 @@
+.page {
+  max-width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.filter-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0.25rem 0 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.ff {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ff-currency {
+  flex: 0 1 5.5rem;
+  min-width: 5rem;
+}
+
+.ff-date {
+  flex: 0 1 9.5rem;
+  min-width: 8.75rem;
+}
+
+.ff-limit {
+  flex: 0 0 4.75rem;
+  min-width: 4.25rem;
+  max-width: 5.5rem;
+}
+
+.btn-search,
+.btn-reset {
+  flex: 0 0 auto;
+  margin-bottom: 1.25rem;
+  white-space: nowrap;
+}
+
+.btn-search {
+  min-height: 40px;
+}
+
+.table-wrap {
+  position: relative;
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.history-table {
+  width: 100%;
+  min-width: 720px;
+}
+
+.history-table .mat-mdc-header-cell,
+.history-table .mat-mdc-cell {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+th.num,
+td.num {
+  text-align: right;
+}
+
+.empty {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+}
