@@ -4,7 +4,8 @@
 
 [build]
   base = "frontend"
-  # Inject SUPABASE_* / API_BASE_URL into environment.prod.secrets.ts before Angular build
+  # Writes environment.prod.secrets.ts from env (SUPABASE_URL, SUPABASE_ANON_KEY, optional API_BASE_URL).
+  # In Netlify, set those vars with scope "Builds" or "All" so they exist at build time.
   command = "cd .. && node frontend/scripts/write-prod-secrets.mjs && npm ci && npm run build --workspace=frontend"
   publish = "dist/frontend/browser"
 
