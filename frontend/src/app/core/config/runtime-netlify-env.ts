@@ -42,6 +42,13 @@ export async function loadNetlifyRuntimePublicEnv(): Promise<void> {
     const apiBaseUrl = (j.apiBaseUrl ?? '').trim();
     if (supabaseUrl && supabaseAnonKey) {
       runtime = { supabaseUrl, supabaseAnonKey, apiBaseUrl };
+    } else if (apiBaseUrl) {
+      // Allow API-only from the function when Supabase is baked into the bundle
+      runtime = {
+        supabaseUrl: runtime?.supabaseUrl ?? '',
+        supabaseAnonKey: runtime?.supabaseAnonKey ?? '',
+        apiBaseUrl,
+      };
     }
   } catch {
     /* not on Netlify or function unavailable */
