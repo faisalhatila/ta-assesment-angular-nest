@@ -1,0 +1,17 @@
+# Netlify deploy for this monorepo (Angular app in /frontend).
+# Build from repository root so npm workspaces install correctly.
+
+[build]
+  # Install all workspaces, then production-build only the Angular app.
+  command = "npm ci && npm run build --workspace=frontend"
+  # Application builder output (project name "frontend" in angular.json → dist/frontend/browser)
+  publish = "frontend/dist/frontend/browser"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA: Angular routes (e.g. /converter) must serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
