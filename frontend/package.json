@@ -3,10 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "env:inject": "node scripts/inject-env.mjs",
-    "env:inject:prod": "node scripts/inject-env.mjs --mode=production",
-    "postinstall": "node scripts/inject-env.mjs && node scripts/inject-env.mjs --mode=production",
-    "prestart": "node scripts/inject-env.mjs",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
