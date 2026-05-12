@@ -1,16 +1,16 @@
-# Netlify deploy for this monorepo (Angular app in /frontend).
-# Build from repository root so npm workspaces install correctly.
+# Netlify + @netlify/angular-runtime: base must be the Angular app root so
+# publish is "dist/frontend/browser" (matches angular.json output + plugin check).
+# Install still runs from repo root (parent of base) for workspace lockfile.
 
 [build]
-  # Install all workspaces, then production-build only the Angular app.
-  command = "npm ci && npm run build --workspace=frontend"
-  # Application builder output (project name "frontend" in angular.json → dist/frontend/browser)
-  publish = "frontend/dist/frontend/browser"
+  base = "frontend"
+  command = "cd .. && npm ci && npm run build --workspace=frontend"
+  publish = "dist/frontend/browser"
 
 [build.environment]
   NODE_VERSION = "20"
 
-# SPA: Angular routes (e.g. /converter) must serve index.html
+# SPA: client routes must serve index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
